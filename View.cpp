@@ -7,6 +7,17 @@
 #include "Field.h"
 
 #include <cassert>
+#include <string>
+#include <iostream>
+#include <sstream>
+
+template <typename T>
+std::string ToString(T val)
+{
+    std::stringstream stream;
+    stream << val;
+    return stream.str();
+}
 
 namespace {
 	void render_texture(SDL_Renderer *ren, SDL_Texture *tex, int x, int y, int w, int h) {
@@ -103,9 +114,21 @@ void View::draw() {
     SDL_RenderPresent(ren.get());
 }
 
-void View::draw_end_screen(Team winner) {
+void View::draw_end_screen(Team winner,int red_wins, int green_wins) {
     std::string winner_text;
+    std::string start_text = "start";
+    std::string select_text = "exit";
+    std::string realwinner_text = ToString(red_wins) + " : " + ToString(green_wins);
+
     SDL_Color winner_color;
+    SDL_Color realwinner_color;
+    SDL_Color start_color = {0,255,0};
+    SDL_Color select_color = {255,0,0};
+    SDL_Color bg_color = {0,0,0};
+
+    if (red_wins == green_wins) realwinner_color = {255,255,0};
+    else if (red_wins < green_wins) realwinner_color = {0,255,0};
+    else realwinner_color = {255,0,0};
 
     if (winner == RED) {
         winner_text = "Red Won";
@@ -116,21 +139,69 @@ void View::draw_end_screen(Team winner) {
         winner_color = {0, 255, 0};
     }
     else {
-		assert(!"draw_end_screen called with no winner");
+        	winner_text = "Tie!";
+        	winner_color = {255, 255, 0};
 	}
 
+    auto winner_texture_s = render_font(ren.get(), "Resources/pixelated.ttf", winner_text.c_str(), bg_color, 50);
+    auto select_texture_s = render_font(ren.get(), "Resources/pixelated.ttf", select_text.c_str(), bg_color, 24);
+    auto start_texture_s = render_font(ren.get(), "Resources/pixelated.ttf", start_text.c_str(), bg_color, 24);
+    auto realwinner_texture_s = render_font(ren.get(), "Resources/pixelated.ttf", realwinner_text.c_str(), bg_color, 24);
     auto winner_texture = render_font(ren.get(), "Resources/pixelated.ttf", winner_text.c_str(), winner_color, 50);
+    auto select_texture = render_font(ren.get(), "Resources/pixelated.ttf", select_text.c_str(), select_color, 24);
+    auto start_texture = render_font(ren.get(), "Resources/pixelated.ttf", start_text.c_str(), start_color, 24);
+    auto realwinner_texture = render_font(ren.get(), "Resources/pixelated.ttf", realwinner_text.c_str(), realwinner_color, 24);
 
-    int w,
-        h;
+    int w,h;
     SDL_QueryTexture(winner_texture.get(), nullptr, nullptr, &w, &h);
 
     SDL_Rect dst;
-    dst.x = Field::SCREEN_WIDTH / 2 - w / 2;
-    dst.y = Field::SCREEN_HEIGHT / 2 - h / 2;
+    dst.x = Field::SCREEN_WIDTH / 2 - w / 2 + 2;
+    dst.y = Field::SCREEN_HEIGHT / 2 - h / 2 + 2;
     dst.w = w;
     dst.h = h;
 
+    SDL_RenderCopy(ren.get(), winner_texture_s.get(), nullptr, &dst);
+    dst.x -= 2;
+    dst.y -= 2;
     SDL_RenderCopy(ren.get(), winner_texture.get(), nullptr, &dst);
+
+    SDL_QueryTexture(realwinner_texture.get(), nullptr, nullptr, &w, &h);
+    dst.x = Field::SCREEN_WIDTH / 2 - w / 2 + 2;
+    dst.y = Field::SCREEN_HEIGHT - h - 3;
+    dst.w = w;
+    dst.h = h;
+
+    SDL_RenderCopy(ren.get(), realwinner_texture_s.get(), nullptr, &dst);
+
+    dst.x -= 2;
+    dst.y -= 2;
+
+    SDL_RenderCopy(ren.get(), realwinner_texture.get(), nullptr, &dst);
+
+    SDL_QueryTexture(start_texture.get(), nullptr, nullptr, &w, &h);
+
+    dst.x = Field::SCREEN_WIDTH - w - 1;
+    dst.y = 5;
+    dst.w = w;
+    dst.h = h;
+
+    SDL_RenderCopy(ren.get(), start_texture_s.get(), nullptr, &dst);
+    dst.x -= 2;
+    dst.y -= 2;
+    SDL_RenderCopy(ren.get(), start_texture.get(), nullptr, &dst);
+
+    SDL_QueryTexture(select_texture.get(), nullptr, nullptr, &w, &h);
+
+    dst.x = 5; 
+    dst.y = 5;
+    dst.w = w;
+    dst.h = h;
+
+    SDL_RenderCopy(ren.get(), select_texture_s.get(), nullptr, &dst);
+    dst.x -= 2;
+    dst.y -= 2;
+    SDL_RenderCopy(ren.get(), select_texture.get(), nullptr, &dst);
+
     SDL_RenderPresent(ren.get());
 }

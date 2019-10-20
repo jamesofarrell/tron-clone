@@ -15,7 +15,7 @@ public:
     View(Field *field);
 	
     void draw();
-    void draw_end_screen(Team Winner);
+    void draw_end_screen(Team Winner,int red_wins, int green_wins);
 	
 private:
 	SdlWinPtr win;

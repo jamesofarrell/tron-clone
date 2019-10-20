@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Field.h"
 
-Player::Player(int x, int y, Team nteam) : team(nteam), pos(x, y) {}
+Player::Player(int x, int y, Dir ndir, Team nteam) : team(nteam), pos(x, y), direction(ndir) {}
 
 void Player::changeDirection(Dir newDir) {
     direction = newDir;

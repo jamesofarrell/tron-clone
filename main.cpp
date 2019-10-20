@@ -5,9 +5,10 @@
 int main() {
     Model model;
     while (!model.isGameOver()) {
-        model.loop();
+    	while (!model.isGameOver()) {
+    	    model.loop();
+    	}
+    	model.endGame();
     }
-    model.endGame();
-    SDL_Delay(1000);
     return 0;
 }

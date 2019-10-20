@@ -7,7 +7,7 @@ echo ${OPK_NAME}
 # create default.gcw0.desktop
 cat > default.gcw0.desktop <<EOF
 [Desktop Entry]
-Name=tron-clone
+Name=Tron Clone
 Comment=2 Player Light Cycle Game
 Exec=tron-clone.elf
 Terminal=false

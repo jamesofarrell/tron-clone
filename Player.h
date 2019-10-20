@@ -20,11 +20,11 @@ public:
 	
 	Coord tick();
 
-    Player(int x, int y, Team nteam);
+    Player(int x, int y, Dir ndir, Team nteam);
 
     Coord pos;
-private:
     Dir direction = UP;
+private:
     Team team;
 };
 

@@ -17,6 +17,8 @@ void Controller::handleEvents() {
                 case SDLK_DOWN: model->player1().turnRight(); break;
                 case SDLK_LALT:     model->player2().turnLeft(); break;
                 case SDLK_SPACE:     model->player2().turnRight(); break;
+                case SDLK_ESCAPE:     model->quit(); break;
+                case SDLK_RETURN:     model->restartGame(); break;
 			}
         }
         else if (ev.type == SDL_QUIT)

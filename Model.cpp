@@ -3,8 +3,9 @@
 //
 
 #include "Model.h"
+#include "Includes.h"
 
-Model::Model() : player_1(Field::WIDTH / 2 - Field::WIDTH / 4, Field::HEIGHT / 2, RED), player_2(Field::WIDTH / 2 + Field::WIDTH / 4, Field::WIDTH / 2, GREEN),
+Model::Model() : player_1(1 , Field::HEIGHT / 2, RIGHT, RED), player_2(Field::WIDTH - 2, Field::HEIGHT / 2, LEFT, GREEN),
                  controller(this), view(&field)
 {
     field.matrix[player_1.pos.y][player_1.pos.x] = PLAYER_1;
@@ -46,8 +47,36 @@ void Model::loop() {
 }
 
 void Model::endGame() {
-	if(winner != NONE)
- 	   view.draw_end_screen(winner);
+	if (winner == RED) red_wins++;
+	else if (winner == GREEN) green_wins++;
+    view.draw_end_screen(winner,red_wins,green_wins);
+    SDL_Event ev;
+    while(SDL_WaitEvent(&ev)){
+        if (ev.type == SDL_KEYDOWN) {
+            switch(ev.key.keysym.sym) {
+                case SDLK_ESCAPE:     game_over_flag=true;return;
+                case SDLK_RETURN:     restartGame();return;
+                        }
+        }
+        else if (ev.type == SDL_QUIT) {
+               game_over_flag=true;
+	       return;
+	}
+    }
+
+}
+
+void Model::restartGame() {
+    game_over_flag=false;
+    std::fill_n(&field.matrix[0][0], Field::WIDTH * Field::HEIGHT, NOTHING);
+    player_1.pos.x=1;
+    player_1.pos.y=Field::HEIGHT/2;
+    player_1.direction = RIGHT;
+    player_2.pos.x=Field::WIDTH - 2;
+    player_2.pos.y=Field::HEIGHT/2;
+    player_2.direction = LEFT;
+    field.matrix[player_1.pos.y][player_1.pos.x] = PLAYER_1;
+    field.matrix[player_2.pos.y][player_2.pos.x] = PLAYER_2;
 }
 
 void Model::quit() {
@@ -71,9 +100,13 @@ void Model::updatePlayer(Player &p) {
 
 void Model::checkCollision(Player &p) {
 	Objects cell = field.matrix[p.pos.y][p.pos.x];
-    if (cell == RED_TRAIL || cell == GREEN_TRAIL) {
-        game_over_flag = true;
-		winner = p.getTeam() == RED ? GREEN : RED;
+    if (cell == RED_TRAIL || cell == GREEN_TRAIL || cell == PLAYER_1 || cell == PLAYER_2 ) {
+		if(game_over_flag) {
+				winner = NONE;
+		} else {
+        	game_over_flag = true;
+			winner = p.getTeam() == RED ? GREEN : RED;
+		}
     }
 }
 

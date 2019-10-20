@@ -17,6 +17,7 @@ public:
     void endGame();
 	
 	void quit();
+	void restartGame();
 	
     Model();
 
@@ -24,6 +25,8 @@ public:
 	
 	Player &player1();
 	Player &player2();
+    int green_wins = 0;
+    int red_wins = 0;
 
 private:
     Player player_1,
@@ -37,7 +40,6 @@ private:
 
     Controller controller;
     View view;
-
     constexpr static int max_fps = 60;
     int last_ticks = 0;
     int current_ticks;
