@@ -68,6 +68,7 @@ void Model::endGame() {
 
 void Model::restartGame() {
     game_over_flag=false;
+    winner=NONE;
     std::fill_n(&field.matrix[0][0], Field::WIDTH * Field::HEIGHT, NOTHING);
     player_1.pos.x=1;
     player_1.pos.y=Field::HEIGHT/2;

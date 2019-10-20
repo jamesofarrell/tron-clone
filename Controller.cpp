@@ -13,10 +13,14 @@ void Controller::handleEvents() {
     while(SDL_PollEvent(&ev))
         if (ev.type == SDL_KEYDOWN) {
             switch(ev.key.keysym.sym) {
-                case SDLK_UP:  model->player1().turnLeft(); break;
-                case SDLK_DOWN: model->player1().turnRight(); break;
-                case SDLK_LALT:     model->player2().turnLeft(); break;
-                case SDLK_SPACE:     model->player2().turnRight(); break;
+                case SDLK_UP:  model->player1().direction = UP; break;
+                case SDLK_DOWN: model->player1().direction = DOWN; break;
+                case SDLK_LEFT: model->player1().direction = LEFT; break;
+                case SDLK_RIGHT: model->player1().direction = RIGHT; break;
+                case SDLK_SPACE:  model->player2().direction = UP; break;
+                case SDLK_LALT: model->player2().direction = DOWN; break;
+                case SDLK_LSHIFT: model->player2().direction = LEFT; break;
+                case SDLK_LCTRL: model->player2().direction = RIGHT; break;
                 case SDLK_ESCAPE:     model->quit(); break;
                 case SDLK_RETURN:     model->restartGame(); break;
 			}
