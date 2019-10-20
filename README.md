@@ -15,9 +15,7 @@ tron-clone is exactly what it says on the tin. It is a remake of the game tron. 
 # Quickstart guide:
 To begin playing clone the repository using this command:
 ```
-git clone https://github.com/Balajanovski/tron-clone.git
-```
-Enter the directory via command line then type:
+git clone https://github.com/Balajanovski/tron-clone.git && cd tron-clone
 ```
 To build the opk file type:
 ```
