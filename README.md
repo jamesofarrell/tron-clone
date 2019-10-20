@@ -1,6 +1,6 @@
 # tron-clone<br>
 <p>Hello, I see you have come across my only working, completely bug free, simple game.<br>
-tron-clone is exactly what it says on the tin. It is a remake of the game tron.</p>
+tron-clone is exactly what it says on the tin. It is a remake of the game tron. RG350 PORT</p>
 
 [![tron.png](https://s14.postimg.org/92dv09hu9/tron.png)](https://postimg.org/image/3qyyfjvrh/)
 
@@ -19,29 +19,21 @@ git clone https://github.com/Balajanovski/tron-clone.git
 ```
 Enter the directory via command line then type:
 ```
-cmake .
+To build the opk file type:
 ```
-Doing this generates a makefile using your system's C++ compiler, linking all required libraries in the process as well.<br>
-To build the binary file type:
+make && ./create_opk.sh
 ```
-make
-```
-And to play just run
-```
-./Tron
-```
-Enjoy!
+And to play just copy to your RG350 external sdcard to apps
 
 ---
 
 # How To Play
 
-Red controls with the arrow keys.<br>
-Green controls with WASD.<br>
+Red controls with the DPAD.<br>
+Green controls with ABXY.<br>
 
 Try cut off the other person and get them to collide with your tail or their own.
 
 ---
 # Dependencies list:
 * <a href="https://www.libsdl.org/">SDL</a>
-* <a href="https://cmake.org/">CMake</a>
