@@ -119,7 +119,7 @@ void View::draw_end_screen(Team winner) {
 		assert(!"draw_end_screen called with no winner");
 	}
 
-    auto winner_texture = render_font(ren.get(), "Resources/Pixelated.ttf", winner_text.c_str(), winner_color, 50);
+    auto winner_texture = render_font(ren.get(), "Resources/pixelated.ttf", winner_text.c_str(), winner_color, 50);
 
     int w,
         h;
